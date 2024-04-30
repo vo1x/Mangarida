@@ -1,10 +1,10 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useContext, useState, useEffect } from 'react';
 import Header from './Header';
-import SearchBar from './SearchBar';
-import { UserContext } from '../../context/userContext';
-import LoginModal from './LoginModal';
-import useAuth from '../hooks/useAuth';
+import SearchBar from '../SearchBar';
+import { UserContext } from '../../../context/userContext';
+import LoginModal from '../modals/LoginModal';
+import useAuth from '../../hooks/useAuth';
 
 function Topbar() {
   const navigate = useNavigate();
@@ -24,8 +24,8 @@ function Topbar() {
   }, [isModalOpen]);
 
   const handleLogout = async () => {
-    await logout(); 
-    navigate('/'); 
+    await logout();
+    navigate('/');
   };
 
   return (

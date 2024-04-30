@@ -1,8 +1,8 @@
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../../context/userContext';
+import { UserContext } from '../../../context/userContext';
 import axios from 'axios';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 
 const RequireAuth = () => {
   const { user } = useAuth();

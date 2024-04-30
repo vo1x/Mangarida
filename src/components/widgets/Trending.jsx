@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import TrendingCard from './TrendingCard';
+import TrendingCard from '../cards/TrendingCard';
 import { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';

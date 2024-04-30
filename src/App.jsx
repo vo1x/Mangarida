@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Reader from './components/Reader';
-import MangaDetails from './components/MangaDetails';
-import SearchResults from './components/SearchResults';
-import Home from './components/Home';
+import Reader from './pages/Reader';
+import MangaDetails from './pages/MangaDetails';
+import SearchResults from './pages/SearchResults';
+import Home from './pages/Home';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import Login from './pages/Login';
@@ -10,13 +10,13 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { UserContextProvider } from '../context/userContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import axios from 'axios';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import Dashboard from './pages/Dashboard';
-import RequireAuth from './components/RequireAuth';
+// import RequireAuth from './components/RequireAuth';
 axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.withCredentials = true;
 const queryClient = new QueryClient();
-import PrivateRoute from './components/RequireAuth';
+// import PrivateRoute from './components/RequireAuth';
 
 function App() {
   return (

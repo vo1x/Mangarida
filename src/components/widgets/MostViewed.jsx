@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import MostViewedCard from './MostViewedCard';
+import MostViewedCard from '../cards/MostViewedCard';
 import { useState } from 'react';
-import CardSkeleton from './CardSkeleton';
+import CardSkeleton from '../cards/CardSkeleton';
 
 function MostViewed() {
   const {

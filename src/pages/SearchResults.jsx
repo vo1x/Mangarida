@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom';
-import Topbar from './Topbar';
+import Topbar from '../components/layout/Topbar';
 import { useEffect, useState } from 'react';
-import Card from './Card';
-import CardSkeleton from './CardSkeleton';
+import Card from '../components/cards/Card';
+import CardSkeleton from '../components/cards/CardSkeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useQuery } from '@tanstack/react-query';
 

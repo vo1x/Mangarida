@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
-import ChapterList from './ChapterList';
+import ChapterList from '../components/manga/ChapterList';
 import { FiArrowRight } from 'react-icons/fi';
-import Topbar from './Topbar';
+import Topbar from '../components/layout/Topbar';
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import { ArrowDown, ArrowUp, ChevronDown, ChevronUp } from 'lucide-react';

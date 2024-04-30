@@ -1,5 +1,5 @@
 import { FiChevronDown, FiInfo } from 'react-icons/fi';
-import Header from './Header';
+import Header from '../layout/Header';
 import { useParams, Link } from 'react-router-dom';
 import ChapterList from './ChapterList';
 import ChapterPicker from './ChapterPicker';

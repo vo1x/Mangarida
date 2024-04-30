@@ -1,7 +1,7 @@
-import Topbar from './Topbar';
-import Trending from './Trending';
-import MostViewed from './MostViewed';
-import RecentlyUpdated from './RecentlyUpdated';
+import Topbar from '../components/layout/Topbar';
+import Trending from '../components/widgets/Trending';
+import MostViewed from '../components/widgets/MostViewed';
+import RecentlyUpdated from '../components/widgets/RecentlyUpdated';
 function Home() {
   return (
     <>

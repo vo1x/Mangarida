@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import RecentlyUpdatedCard from './RecentlyUpdatedCard';
-import CardSkeleton from './CardSkeleton';
+import RecentlyUpdatedCard from '../cards/RecentlyUpdatedCard';
+import CardSkeleton from '../cards/CardSkeleton';
 
 function RecentlyUpdated() {
   const { data: recentlyUpdated, isFetching } = useQuery({
@@ -12,7 +12,7 @@ function RecentlyUpdated() {
   return (
     <>
       <div className="relative mb-10 flex h-max flex-col">
-        <div className="text-3xl mb-2 font-bold uppercase text-neutral-100">Recently Updated</div>
+        <div className="mb-2 text-3xl font-bold uppercase text-neutral-100">Recently Updated</div>
 
         <div className="grid grid-cols-6 gap-10 gap-y-5">
           {isFetching ? (
