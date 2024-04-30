@@ -1,9 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import MostViewedCard from './MostViewedCard';
 import { useState } from 'react';
+import CardSkeleton from './CardSkeleton';
 
 function MostViewed() {
-  const { data: mostViewed } = useQuery({
+  const {
+    data: mostViewed,
+    isFetching,
+    isFetched,
+    isError
+  } = useQuery({
     queryKey: ['mostViewed'],
     staleTime: Infinity,
     queryFn: () => fetch('http://127.0.0.1:5000/most_viewed').then((res) => res.json())
@@ -46,34 +52,38 @@ function MostViewed() {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-5 gap-10 gap-y-5">
-            {mostViewed && activeTabIndex === 0
-              ? mostViewed.day.map((item) => (
-                  <MostViewedCard
-                    name={item.name}
-                    rank={item.rank}
-                    poster={item.poster_url}
-                    identifier={item.identifier}
-                  />
-                ))
-              : mostViewed && activeTabIndex === 1
-                ? mostViewed.week.map((item) => (
-                    <MostViewedCard
-                      name={item.name}
-                      rank={item.rank}
-                      poster={item.poster_url}
-                      identifier={item.identifier}
-                    />
-                  ))
-                : mostViewed &&
-                  mostViewed.month.map((item) => (
-                    <MostViewedCard
-                      name={item.name}
-                      rank={item.rank}
-                      poster={item.poster_url}
-                      identifier={item.identifier}
-                    />
-                  ))}
+          <div className="grid grid-cols-6 gap-10 gap-y-5">
+            {isFetching ? (
+              <CardSkeleton cards={10} />
+            ) : mostViewed && activeTabIndex === 0 ? (
+              mostViewed.day.map((item) => (
+                <MostViewedCard
+                  name={item.name}
+                  rank={item.rank}
+                  poster={item.poster_url}
+                  identifier={item.identifier}
+                />
+              ))
+            ) : mostViewed && activeTabIndex === 1 ? (
+              mostViewed.week.map((item) => (
+                <MostViewedCard
+                  name={item.name}
+                  rank={item.rank}
+                  poster={item.poster_url}
+                  identifier={item.identifier}
+                />
+              ))
+            ) : (
+              mostViewed &&
+              mostViewed.month.map((item) => (
+                <MostViewedCard
+                  name={item.name}
+                  rank={item.rank}
+                  poster={item.poster_url}
+                  identifier={item.identifier}
+                />
+              ))
+            )}
           </div>
         </div>
       </div>

@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import RecentlyUpdatedCard from './RecentlyUpdatedCard';
+import CardSkeleton from './CardSkeleton';
 
 function RecentlyUpdated() {
-  const { data: recentlyUpdated } = useQuery({
+  const { data: recentlyUpdated, isFetching } = useQuery({
     queryKey: ['recentlyUpdated'],
     staleTime: Infinity,
     queryFn: () => fetch('http://127.0.0.1:5000/recent').then((res) => res.json())
@@ -11,10 +12,13 @@ function RecentlyUpdated() {
   return (
     <>
       <div className="relative mb-10 flex h-max flex-col">
-        <div className="text-3xl font-bold uppercase text-neutral-100">Recently Updated</div>
+        <div className="text-3xl mb-2 font-bold uppercase text-neutral-100">Recently Updated</div>
 
-        <div className="grid grid-cols-5 gap-10 gap-y-5">
-          {recentlyUpdated &&
+        <div className="grid grid-cols-6 gap-10 gap-y-5">
+          {isFetching ? (
+            <CardSkeleton cards={12} />
+          ) : (
+            recentlyUpdated &&
             recentlyUpdated.map((item) => (
               <RecentlyUpdatedCard
                 name={item.name}
@@ -22,7 +26,8 @@ function RecentlyUpdated() {
                 poster={item.poster_url}
                 identifier={item.identifier}
               />
-            ))}
+            ))
+          )}
         </div>
       </div>
     </>
