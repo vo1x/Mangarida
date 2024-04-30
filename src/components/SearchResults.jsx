@@ -8,7 +8,6 @@ import { useQuery } from '@tanstack/react-query';
 
 function SearchResults() {
   const { keyword } = useParams();
-  // const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(false);
 
@@ -22,51 +21,6 @@ function SearchResults() {
     staleTime: Infinity,
     queryFn: () => fetch(`http://127.0.0.1:5000/search/${keyword}`).then((res) => res.json())
   });
-
-  // useEffect(() => {
-  //   if (isFetched && !isError) {
-  //     setSearchResults(data);
-  //     setIsLoading(false);
-  //   }
-  // }, [data, isFetched, isError]);
-
-  // useEffect(() => {
-  //   const fetchResults = async () => {
-  //     try {
-  //       setIsLoading(true);
-  //       const url = `http://127.0.0.1:5000/search/${keyword}`;
-  //       const res = await fetch(url);
-  //       const data = await res.json();
-  //       setSearchResults(data);
-  //       setIsLoading(false);
-  //     } catch (error) {
-  //       console.error('Error fetching search results:', error);
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   fetchResults();
-  // }, [keyword]);
-
-  // useEffect(() => {
-  //   setImagesLoaded(false);
-
-  //   if (!isLoading && searchResults.length > 0) {
-  //     const images = [];
-  //     let loadedCount = 0;
-  //     searchResults.forEach((result) => {
-  //       const img = new Image();
-  //       img.src = result.poster_url;
-  //       img.onload = () => {
-  //         loadedCount++;
-  //         if (loadedCount === searchResults.length) {
-  //           setImagesLoaded(true);
-  //         }
-  //       };
-  //       images.push(img);
-  //     });
-  //   }
-  // }, [isLoading, searchResults]);
 
   return (
     <>

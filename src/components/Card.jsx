@@ -30,9 +30,9 @@ function Card(props) {
               className="h-full max-h-72 min-h-72 object-contain"
               onLoad={handleImageLoad}
             />
-            <div className="p-2">
-              <div className="text-md font-bold text-slate-100">{name}</div>
-              <div className="text-sm font-bold text-slate-400">{type}</div>
+            <div className="">
+              <div className="text-sm font-bold text-neutral-100">{name}</div>
+              <div className="text-xs  text-neutral-400">{type}</div>
             </div>
           </div>
         </div>
