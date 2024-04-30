@@ -4,11 +4,11 @@ import { FiArrowRight } from 'react-icons/fi';
 import Topbar from './Topbar';
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
-
+import { ArrowDown, ArrowUp, ChevronDown, ChevronUp } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 
 function MangaDetails() {
-  // const [details, setDetails] = useState({});
   const { mangaName, mangaID } = useParams();
   console.log(mangaName);
   const {
@@ -23,23 +23,7 @@ function MangaDetails() {
       fetch(`http://127.0.0.1:5000/manga/${mangaName}.${mangaID}`).then((res) => res.json())
   });
 
-  // useEffect(() => {
-  //   if (isFetched && !isError) {
-  //     console.log(data);
-  //     setDetails(data);
-  //   }
-  // }, [data, isFetched, isError]);
-
-  // useEffect(() => {
-  //   const getDetails = async () => {
-  //     const url = `http://127.0.0.1:5000/manga/${mangaName}.${mangaID}`;
-  //     const result = await fetch(url);
-  //     const data = await result.json();
-  //     setDetails(data);
-  //   };
-  //   getDetails();
-  // }, [mangaName, mangaID]);
-
+  const [readMore, setReadmore] = useState(false);
   return (
     <>
       <Topbar></Topbar>
@@ -99,12 +83,23 @@ function MangaDetails() {
                     {(details && details.type) || <Skeleton count={1} width={100} height={20} />}
                   </span>
                 </div>
-                <div className="max-w-screen-sm">
-                  <p className=" text-neutral-400">
+                <div className="flex max-w-screen-sm flex-col items-start">
+                  <p
+                    className={` ${readMore ? 'line-clamp-none' : 'line-clamp-3'} text-neutral-400`}
+                  >
                     {(details && details.synopsis) || (
                       <Skeleton count={5} width={640} height={20} />
                     )}
                   </p>
+                  {details?.synopsis && (
+                    <button
+                      onClick={() => setReadmore((readMore) => !readMore)}
+                      className="flex items-center justify-center gap-1  p-1 text-sm font-semibold text-neutral-200 underline"
+                    >
+                      <span>Read more</span>
+                      {!readMore ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

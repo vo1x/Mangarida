@@ -18,7 +18,7 @@ function Card(props) {
   return (
     <>
       <Link to={`/manga/${mangaName}/${mangaID}`}>
-        <div className="max-w-48 rounded-md ">
+        <div className="min-h-80 max-w-48 rounded-md ">
           {/* {!imageLoaded && <CardSkeleton />} */}
           <div style={{ display: imageLoaded ? 'block' : 'none' }}>
             <motion.img
@@ -27,7 +27,7 @@ function Card(props) {
               transition={{ duration: 0.5 }}
               src={poster}
               alt=""
-              className="object-contain"
+              className="h-full max-h-72 min-h-72 object-contain"
               onLoad={handleImageLoad}
             />
             <div className="p-2">
