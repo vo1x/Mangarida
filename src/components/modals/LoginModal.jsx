@@ -40,14 +40,13 @@ function LoginModal({ isOpen, onClose }) {
   });
 
   const handleEmailInput = (e) => {
-    var emailValue = e.target.value;
+    const emailValue = e.target.value;
     setData({ ...data, email: emailValue });
 
-    if (emailValue.trim().includes('@')) {
-      setFormDataValid({ ...formDataValid, email: true });
-    } else {
-      setFormDataValid({ ...formDataValid, email: false });
-    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValidEmail = emailRegex.test(emailValue);
+
+    setFormDataValid({ ...formDataValid, email: isValidEmail });
   };
 
   const changeTab = () => setCurrentTab(0);
