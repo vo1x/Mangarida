@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-// import { useState, useEffect } from 'react';
 import { FiLoader } from 'react-icons/fi';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -15,7 +14,6 @@ function ChapterList(props) {
       await axios.get(`/chapters/${mangaName}.${mangaID}/`).then((res) => res.data)
   });
   const [inputValue, setInputValue] = useState('');
-  console.log(inputValue);
   return (
     <div className="no-scrollbar flex max-h-svh min-h-96 max-w-screen-lg flex-col overflow-auto rounded-md border border-neutral-700 bg-neutral-950 text-neutral-400 outline-none">
       <div className="sticky top-0 z-10 bg-black">
