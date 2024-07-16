@@ -7,7 +7,7 @@ import Skeleton from 'react-loading-skeleton';
 import { ArrowDown, ArrowUp, ChevronDown, ChevronUp } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-
+import axios from 'axios';
 function MangaDetails() {
   const { mangaName, mangaID } = useParams();
   console.log(mangaName);
@@ -19,9 +19,10 @@ function MangaDetails() {
     queryKey: [mangaName, mangaID],
     staleTime: Infinity,
     gcTime: 60 * 60 * 1000 * 24,
-    queryFn: () =>
-      fetch(`http://127.0.0.1:5000/manga/${mangaName}.${mangaID}`).then((res) => res.json())
+    queryFn: () => axios.get(`/manga/${mangaName}.${mangaID}`).then((res) => res.data)
   });
+
+  console.log(details);
 
   const [readMore, setReadmore] = useState(false);
   return (
@@ -30,12 +31,8 @@ function MangaDetails() {
       <div className="mx-10 mb-10 flex flex-col">
         <div className="my-5 flex gap-5">
           <div>
-            {details && details.poster_url ? (
-              <img
-                src={details && details.poster_url}
-                alt=""
-                className="min-w-48 max-w-48 rounded-md"
-              />
+            {details && details.posterUrl ? (
+              <img src={details.posterUrl} alt="" className="min-w-48 max-w-48 rounded-md" />
             ) : (
               <Skeleton width={192} height={275} />
             )}
@@ -60,10 +57,10 @@ function MangaDetails() {
                 </span>
                 <span className=" max-h-20 overflow-auto pb-2">
                   {(details &&
-                    details.alt_name &&
-                    details.alt_name.map((name, index) => (
+                    details.altNames &&
+                    details.altNames.map((name, index) => (
                       <span key={index} className="text-sm text-neutral-400 ">
-                        {name + (details.alt_name.length > 0 ? ', ' : '')}
+                        {name + (details.altNames.length > 0 ? ', ' : '')}
                       </span>
                     ))) || <Skeleton count={1} width={200} height={20} />}
                 </span>
@@ -114,7 +111,7 @@ function MangaDetails() {
             <span>
               Published:{' '}
               <span className="">
-                {(details && details.published) || <Skeleton count={1} width={200} height={20} />}
+                {(details && details.publishedOn) || <Skeleton count={1} width={200} height={20} />}
               </span>
             </span>
             <span>

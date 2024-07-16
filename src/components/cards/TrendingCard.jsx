@@ -26,7 +26,7 @@ function TrendingCard(props) {
       >
         <div className="relative">
           <img
-            src={trendingData[currentPage].poster_url}
+            src={trendingData[currentPage].posterUrl}
             alt=""
             onLoad={() => handleImageLoad('image1')}
             className="absolute inset-0 z-0 w-full object-cover blur-lg"
@@ -37,13 +37,13 @@ function TrendingCard(props) {
           <div className="flex max-w-2xl flex-col justify-center gap-2 pl-10">
             <div className="flex flex-col ">
               <div className="capitalize text-white ">
-                Chapter: <span>{trendingData[currentPage].latest_chapter.chapter}</span> - Volume:{' '}
-                <span>{trendingData[currentPage].latest_chapter.volume}</span>
+                Chapter: <span>{trendingData[currentPage].latestChapter.chNum}</span> - Volume:{' '}
+                <span>{trendingData[currentPage].latestChapter.volume}</span>
               </div>
 
               <div className=" w-max overflow-hidden text-wrap text-2xl font-bold capitalize">
                 <Link
-                  to={`/manga/${trendingData[currentPage].identifier.split('.')[0]}/${trendingData[currentPage].identifier.split('.')[1]}`}
+                  to={`/manga/${trendingData[currentPage].slug.split('.')[0]}/${trendingData[currentPage].slug.split('.')[1]}`}
                 >
                   {trendingData[currentPage].name}
                 </Link>
@@ -59,14 +59,14 @@ function TrendingCard(props) {
             </div>
             <div className="mt-7 flex gap-3">
               <Link
-                to={`/read/${trendingData[currentPage].identifier.split('.')[0]}/${trendingData[currentPage].identifier.split('.')[1]}/chapter-1`}
+                to={`/read/${trendingData[currentPage].slug.split('.')[0]}/${trendingData[currentPage].slug.split('.')[1]}/chapter-1`}
               >
                 <div className="rounded-md bg-neutral-100 px-4 py-2 font-bold text-neutral-950">
                   Read Now
                 </div>
               </Link>
               <Link
-                to={`/manga/${trendingData[currentPage].identifier.split('.')[0]}/${trendingData[currentPage].identifier.split('.')[1]}`}
+                to={`/manga/${trendingData[currentPage].slug.split('.')[0]}/${trendingData[currentPage].slug.split('.')[1]}`}
               >
                 <div className="rounded-md border border-neutral-100 px-4 py-2 font-bold text-neutral-100 hover:bg-neutral-100/20">
                   View Info
@@ -76,7 +76,7 @@ function TrendingCard(props) {
           </div>
           <div className="mr-60 min-h-96 shadow-2xl">
             <img
-              src={trendingData[currentPage].poster_url}
+              src={trendingData[currentPage].posterUrl}
               alt=""
               onLoad={() => handleImageLoad('image2')}
               className="h-full max-h-96  rotate-12 scale-125 border-[10px] border-y-0 border-white "

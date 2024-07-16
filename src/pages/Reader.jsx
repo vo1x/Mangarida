@@ -8,9 +8,10 @@ function Reader() {
   const { mangaName, mangaID, chapter } = useParams();
   useEffect(() => {
     const getPages = async () => {
-      const url = `http://127.0.0.1:5000/read/${mangaName}.${mangaID}/en/chapter-${chapter.split('-')[1]}`;
-      axios.get(url).then((res) => {
-        setPages(res.data);
+      const url = `/read/${mangaName}.${mangaID}/${chapter}`;
+      axios.get(url).then(({ data }) => {
+        console.log(data);
+        setPages(data.pages);
       });
       console.log('req made');
     };
@@ -26,7 +27,7 @@ function Reader() {
         {pages && pages.length > 0 && (
           <div className="mb-20 ml-52 flex max-w-screen-md flex-col place-items-center gap-1  bg-neutral-950">
             {pages.map((page) => (
-              <img key={page.pg_num} src={page.pg_url} className="w-fit"></img>
+              <img key={page.pgNum} src={page.url} className="w-fit"></img>
             ))}
           </div>
         )}

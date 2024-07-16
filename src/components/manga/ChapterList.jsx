@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiLoader } from 'react-icons/fi';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import axios from 'axios';
 
 function ChapterList(props) {
   const { mangaName, mangaID } = props;
@@ -10,8 +11,8 @@ function ChapterList(props) {
     queryKey: [mangaName, mangaID, 'chapters'],
     staleTime: Infinity,
     gcTime: 60 * 60 * 1000,
-    queryFn: () =>
-      fetch(`http://127.0.0.1:5000/chapters/${mangaName}.${mangaID}/`).then((res) => res.json())
+    queryFn: async () =>
+      await axios.get(`/chapters/${mangaName}.${mangaID}/`).then((res) => res.data)
   });
   const [inputValue, setInputValue] = useState('');
   console.log(inputValue);
@@ -34,31 +35,28 @@ function ChapterList(props) {
       {chapters && chapters.chapters.length > 0 ? (
         inputValue === '' ? (
           chapters.chapters.map((chapter) => (
-            <Link
-              to={`/read/${mangaName}/${mangaID}/chapter-${chapter.ch_num}`}
-              key={chapter.ch_num}
-            >
+            <Link to={`/read/${mangaName}/${mangaID}/chapter-${chapter.chNum}`} key={chapter.chNum}>
               <div className="flex  justify-between border-b border-neutral-800 p-3 px-7 transition-colors duration-300 hover:bg-neutral-900 hover:text-neutral-100">
                 <div>
                   <span>{chapter.title}</span>
                 </div>
-                <span>{chapter.published_on}</span>
+                <span>{chapter.publishedOn}</span>
               </div>
             </Link>
           ))
         ) : (
           chapters.chapters
-            .filter((chapter) => parseInt(chapter.ch_num) === parseInt(inputValue))
+            .filter((chapter) => parseInt(chapter.chNum) === parseInt(inputValue))
             .map((chapter) => (
               <Link
-                to={`/read/${mangaName}/${mangaID}/chapter-${chapter.ch_num}`}
-                key={chapter.ch_num}
+                to={`/read/${mangaName}/${mangaID}/chapter-${chapter.chNum}`}
+                key={chapter.chNum}
               >
                 <div className="flex  justify-between border-b border-neutral-800 p-3 px-7 transition-colors duration-300 hover:bg-neutral-900 hover:text-neutral-100">
                   <div>
                     <span>{chapter.title}</span>
                   </div>
-                  <span>{chapter.published_on}</span>
+                  <span>{chapter.publishedOn}</span>
                 </div>
               </Link>
             ))

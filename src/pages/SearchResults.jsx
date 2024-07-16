@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import Topbar from '../components/layout/Topbar';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import Card from '../components/cards/Card';
 import CardSkeleton from '../components/cards/CardSkeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -19,8 +20,9 @@ function SearchResults() {
   } = useQuery({
     queryKey: [keyword],
     staleTime: Infinity,
-    queryFn: () => fetch(`http://127.0.0.1:5000/search/${keyword}`).then((res) => res.json())
+    queryFn: () => axios.get(`/search?query=${keyword}`).then((res) => res.data.results)
   });
+  console.log(searchResults);
 
   return (
     <>
@@ -32,11 +34,11 @@ function SearchResults() {
           ) : searchResults && searchResults.length > 0 ? (
             searchResults.map((result) => (
               <Card
-                key={result.identifier.split('.')[1]}
+                key={result.slug.split('.')[1]}
                 name={result.name}
                 type={result.type}
-                poster={result.poster_url}
-                identifier={result.identifier}
+                poster={result.posterUrl}
+                identifier={result.slug}
                 className=""
               />
             ))

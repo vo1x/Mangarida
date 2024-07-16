@@ -13,7 +13,7 @@ import axios from 'axios';
 // import { ToastContainer } from 'react-toastify';
 import Dashboard from './pages/Dashboard';
 // import RequireAuth from './components/RequireAuth';
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = 'http://localhost:5000';
 axios.defaults.withCredentials = true;
 const queryClient = new QueryClient();
 // import PrivateRoute from './components/RequireAuth';
