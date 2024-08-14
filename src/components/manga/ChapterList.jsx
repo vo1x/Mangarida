@@ -1,18 +1,19 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { FiLoader } from 'react-icons/fi';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import axios from 'axios';
 
-function ChapterList(props) {
-  const { mangaName, mangaID } = props;
+const ChapterList = React.memo(function ChapterList(props) {
+  const { comicId } = props;
   const { data: chapters } = useQuery({
-    queryKey: [mangaName, mangaID, 'chapters'],
+    queryKey: [comicId, 'chapters'],
     staleTime: Infinity,
     gcTime: 60 * 60 * 1000,
-    queryFn: async () =>
-      await axios.get(`/chapters/${mangaName}.${mangaID}/`).then((res) => res.data)
+    queryFn: async () => await axios.get(`/chapters/${comicId}`).then((res) => res.data)
   });
+  console.log(chapters);
   const [inputValue, setInputValue] = useState('');
   return (
     <div className="no-scrollbar flex max-h-svh min-h-96 max-w-screen-lg flex-col overflow-auto rounded-md border border-neutral-700 bg-neutral-950 text-neutral-400 outline-none">
@@ -33,28 +34,29 @@ function ChapterList(props) {
       {chapters && chapters.chapters.length > 0 ? (
         inputValue === '' ? (
           chapters.chapters.map((chapter) => (
-            <Link to={`/read/${mangaName}/${mangaID}/chapter-${chapter.chNum}`} key={chapter.chNum}>
+            <Link to={`/read/${comicId}/${chapter.chId}`} key={chapter.chId}>
               <div className="flex  justify-between border-b border-neutral-800 p-3 px-7 transition-colors duration-300 hover:bg-neutral-900 hover:text-neutral-100">
-                <div>
-                  <span>{chapter.title}</span>
+                <div className="flex items-center gap-2">
+                  <span>{chapter.title ?? `Chapter ${chapter.chNum}`}</span>
+                  <span>•</span>
+                  <span>{chapter.groupName}</span>
                 </div>
-                <span>{chapter.publishedOn}</span>
+                <span>{chapter.createdAt}</span>
               </div>
             </Link>
           ))
         ) : (
           chapters.chapters
-            .filter((chapter) => parseInt(chapter.chNum) === parseInt(inputValue))
+            .filter((chapter) => chapter.chNum === parseInt(inputValue))
             .map((chapter) => (
-              <Link
-                to={`/read/${mangaName}/${mangaID}/chapter-${chapter.chNum}`}
-                key={chapter.chNum}
-              >
+              <Link to={`/read/${comicId}/${chapter.chId}`} key={chapter.chId}>
                 <div className="flex  justify-between border-b border-neutral-800 p-3 px-7 transition-colors duration-300 hover:bg-neutral-900 hover:text-neutral-100">
-                  <div>
-                    <span>{chapter.title}</span>
+                  <div className="flex items-center gap-2">
+                    <span>{chapter.title ?? `Chapter ${chapter.chNum}`}</span>
+                    <span>•</span>
+                    <span>{chapter.groupName}</span>
                   </div>
-                  <span>{chapter.publishedOn}</span>
+                  <span>{chapter.createdAt}</span>
                 </div>
               </Link>
             ))
@@ -67,6 +69,6 @@ function ChapterList(props) {
       )}
     </div>
   );
-}
+});
 
 export default ChapterList;

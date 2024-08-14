@@ -10,13 +10,11 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { UserContextProvider } from '../context/userContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import axios from 'axios';
-// import { ToastContainer } from 'react-toastify';
 import Dashboard from './pages/Dashboard';
-// import RequireAuth from './components/RequireAuth';
+
 axios.defaults.baseURL = 'http://localhost:5000';
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 const queryClient = new QueryClient();
-// import PrivateRoute from './components/RequireAuth';
 
 function App() {
   return (
@@ -27,8 +25,8 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/manga/:mangaName/:mangaID" element={<MangaDetails />} />
-              <Route path="/read/:mangaName/:mangaID/:chapter" element={<Reader />}></Route>
+              <Route path="/comic/:comicId" element={<MangaDetails />} />
+              <Route path="/read/:comicId/:chapterId" element={<Reader />}></Route>
               <Route path="/search/:keyword" element={<SearchResults />}></Route>
               <Route path="/login" element={<Login />}></Route>
               <Route path="/user/profile" element={<Dashboard />} />

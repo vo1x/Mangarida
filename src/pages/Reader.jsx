@@ -1,22 +1,17 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import ReaderControls from '../components/manga/ReaderControls';
+
 function Reader() {
-  const [pages, setPages] = useState([]);
-  const { mangaName, mangaID, chapter } = useParams();
-  useEffect(() => {
-    const getPages = async () => {
-      const url = `/read/${mangaName}.${mangaID}/${chapter}`;
-      axios.get(url).then(({ data }) => {
-        console.log(data);
-        setPages(data.pages);
-      });
-      console.log('req made');
-    };
-    getPages();
-  }, [chapter]);
+  const { chapterId } = useParams();
+
+  const { data: pages } = useQuery({
+    queryKey: [chapterId, 'pages'],
+    staleTime: Infinity,
+    gcTime: 60 * 60 * 1000 * 24,
+    queryFn: async () => await axios.get(`/read/${chapterId}`).then((res) => res.data.pages)
+  });
 
   return (
     <>

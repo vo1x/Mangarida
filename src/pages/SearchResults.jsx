@@ -20,8 +20,9 @@ function SearchResults() {
   } = useQuery({
     queryKey: [keyword],
     staleTime: Infinity,
-    queryFn: () => axios.get(`/search?query=${keyword}`).then((res) => res.data.results)
+    queryFn: async () => await axios.get(`/search?query=${keyword}`).then((res) => res.data.results)
   });
+
   console.log(searchResults);
 
   return (
@@ -34,19 +35,17 @@ function SearchResults() {
           ) : searchResults && searchResults.length > 0 ? (
             searchResults.map((result) => (
               <Card
-                key={result.slug.split('.')[1]}
-                name={result.name}
+                key={result.mangaID}
+                name={result.title}
                 type={result.type}
-                poster={result.posterUrl}
-                identifier={result.slug}
-                className=""
+                poster={result.cover.url}
+                slug={result.slug}
+                comicId={result.mangaID}
               />
             ))
           ) : (
             'No results found'
           )}
-
-          {}
         </div>
       </div>
     </>

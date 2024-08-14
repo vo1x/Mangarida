@@ -4,13 +4,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import axios from 'axios';
 function ChapterPicker(props) {
-  const { mangaName, mangaID } = props;
+  const { comicId } = props;
   const { data: chapters } = useQuery({
-    queryKey: [mangaName, mangaID, 'chapters'],
+    queryKey: [comicId, 'chapters'],
     staleTime: Infinity,
     gcTime: 60 * 60 * 1000,
-    queryFn: async () =>
-      await axios.get(`/chapters/${mangaName}.${mangaID}/`).then((res) => res.data)
+    queryFn: async () => await axios.get(`/chapters/${comicId}`).then((res) => res.data)
   });
   const [inputValue, setInputValue] = useState('');
   return (
@@ -30,25 +29,22 @@ function ChapterPicker(props) {
       {chapters && chapters.chapters.length > 0 ? (
         inputValue === '' ? (
           chapters.chapters.map((chapter) => (
-            <Link to={`/read/${mangaName}/${mangaID}/chapter-${chapter.chNum}`} key={chapter.chNum}>
+            <Link to={`/read/${comicId}/${chapter.chId}`} key={chapter.chId}>
               <div className="flex  justify-between border-b border-neutral-800 p-3 px-7 transition-colors duration-300 hover:bg-neutral-900 hover:text-neutral-100">
                 <div className="overflow-hidden truncate text-nowrap">
-                  <span className=" ">{chapter.title}</span>
+                  <span className=" ">{chapter.title ?? `Chapter ${chapter.chNum}`} </span>
                 </div>
               </div>
             </Link>
           ))
         ) : (
           chapters.chapters
-            .filter((chapter) => parseInt(chapter.chNum) === parseInt(inputValue))
+            .filter((chapter) => chapter.chNum === parseInt(inputValue))
             .map((chapter) => (
-              <Link
-                to={`/read/${mangaName}/${mangaID}/chapter-${chapter.chNum}`}
-                key={chapter.chNum}
-              >
+              <Link to={`/read/${comicId}/${chapter.chId}`} key={chapter.chId}>
                 <div className="flex  justify-between border-b border-neutral-800 p-3 px-7 transition-colors duration-300 hover:bg-neutral-900 hover:text-neutral-100">
                   <div className="overflow-hidden truncate text-nowrap">
-                    <span className="truncate">{chapter.title}</span>
+                    <span className=" ">{chapter.title ?? `Chapter ${chapter.chNum}`} </span>
                   </div>
                 </div>
               </Link>

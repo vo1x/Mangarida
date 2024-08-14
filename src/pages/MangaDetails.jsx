@@ -4,25 +4,19 @@ import { FiArrowRight } from 'react-icons/fi';
 import Topbar from '../components/layout/Topbar';
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
-import { ArrowDown, ArrowUp, ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import axios from 'axios';
 function MangaDetails() {
-  const { mangaName, mangaID } = useParams();
-  console.log(mangaName);
-  const {
-    data: details,
-    isError,
-    isFetched
-  } = useQuery({
-    queryKey: [mangaName, mangaID],
+  const { comicId } = useParams();
+  console.log(comicId);
+  const { data: details } = useQuery({
+    queryKey: [`${comicId}-metadata`],
     staleTime: Infinity,
     gcTime: 60 * 60 * 1000 * 24,
-    queryFn: () => axios.get(`/manga/${mangaName}.${mangaID}`).then((res) => res.data)
+    queryFn: async () => await axios.get(`/manga/${comicId}`).then((res) => res.data)
   });
-
-  console.log(details);
 
   const [readMore, setReadmore] = useState(false);
   return (
@@ -31,8 +25,8 @@ function MangaDetails() {
       <div className="mx-10 mb-10 flex flex-col">
         <div className="my-5 flex gap-5">
           <div>
-            {details && details.posterUrl ? (
-              <img src={details.posterUrl} alt="" className="min-w-48 max-w-48 rounded-md" />
+            {details && details.cover.url ? (
+              <img src={details.cover.url} alt="" className="min-w-48 max-w-48 rounded-md" />
             ) : (
               <Skeleton width={192} height={275} />
             )}
@@ -49,13 +43,13 @@ function MangaDetails() {
             <div className="flex flex-col gap-5">
               <div className="flex max-w-screen-sm flex-col gap-1">
                 <span className="text-3xl font-bold">
-                  {details && details.name ? (
-                    details.name
+                  {details && details.title ? (
+                    details.title
                   ) : (
                     <Skeleton count={1} width={300} height={20} />
                   )}
                 </span>
-                <span className=" max-h-20 overflow-auto pb-2">
+                {/* <span className=" max-h-20 overflow-auto pb-2">
                   {(details &&
                     details.altNames &&
                     details.altNames.map((name, index) => (
@@ -63,16 +57,22 @@ function MangaDetails() {
                         {name + (details.altNames.length > 0 ? ', ' : '')}
                       </span>
                     ))) || <Skeleton count={1} width={200} height={20} />}
-                </span>
+                </span> */}
+
+                {/* router.get("/", getRoot);
+router.get("/search", getSearch);
+router.get("/chapters/:mangaID", getChapters);
+router.get("/manga/:mangaID", getMetadata);
+router.get("/read/:chapterID", getPages); */}
               </div>
               <div className="flex flex-col gap-3">
                 <div>
                   {(details && Object.keys(details).length !== 0 && (
-                    <Link to={`/read/${mangaName}/${mangaID}/chapter-1`}>
-                      <button className="flex items-center gap-2 rounded-md bg-neutral-100 p-2 text-lg font-bold uppercase text-neutral-950">
-                        Start Reading <FiArrowRight />
-                      </button>
-                    </Link>
+                    // <Link to={`/read/${comicId}/chapter-1`}>
+                    <button className="flex items-center gap-2 rounded-md bg-neutral-100 p-2 text-lg font-bold uppercase text-neutral-950">
+                      Start Reading <FiArrowRight />
+                    </button>
+                    // </Link>
                   )) || <Skeleton height={40} width={200} />}
                 </div>
                 <div>
@@ -103,19 +103,19 @@ function MangaDetails() {
           </div>
           <div className="ml-5 mt-5 flex h-max flex-col gap-1 rounded-md border border-neutral-700 bg-neutral-950 p-4">
             <span>
-              Author:{' '}
+              Author:
               <span className="">
                 {(details && details.author) || <Skeleton count={1} width={200} height={20} />}
               </span>
             </span>
             <span>
-              Published:{' '}
+              Published:
               <span className="">
-                {(details && details.publishedOn) || <Skeleton count={1} width={200} height={20} />}
+                {(details && details.createdAt) || <Skeleton count={1} width={200} height={20} />}
               </span>
             </span>
             <span>
-              Genres:{' '}
+              Genres:
               <span className="">
                 {(details && details.genres && details.genres.join(', ')) || (
                   <Skeleton count={1} width={200} height={20} />
@@ -123,14 +123,14 @@ function MangaDetails() {
               </span>
             </span>
             <span>
-              Mangazines:{' '}
+              Mangazines:
               <span className="">
                 {(details && details.mangazines) || <Skeleton count={1} width={200} height={20} />}
               </span>
             </span>
           </div>
         </div>
-        {details && <ChapterList mangaName={mangaName} mangaID={mangaID} />}
+        {details && <ChapterList comicId={comicId} />}
       </div>
     </>
   );

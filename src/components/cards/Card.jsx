@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
-import Skeleton from 'react-loading-skeleton';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import 'react-loading-skeleton/dist/skeleton.css';
-import CardSkeleton from './CardSkeleton';
 import { motion } from 'framer-motion';
+import CardSkeleton from './CardSkeleton';
 
 function Card(props) {
-  const { name, type, poster, identifier } = props;
+  const { name, type, poster, slug, comicId } = props;
   const [imageLoaded, setImageLoaded] = useState(false);
-
-  const [mangaName, mangaID] = identifier && identifier.split('.');
 
   const handleImageLoad = () => {
     setImageLoaded(true);
@@ -17,9 +14,9 @@ function Card(props) {
 
   return (
     <>
-      <Link to={`/manga/${mangaName}/${mangaID}`}>
+      <Link to={`/comic/${comicId}`}>
         <div className="min-h-80 max-w-48 rounded-md ">
-          {/* {!imageLoaded && <CardSkeleton />} */}
+          {!imageLoaded && <CardSkeleton />}
           <div style={{ display: imageLoaded ? 'block' : 'none' }}>
             <motion.img
               initial={{ opacity: 0 }}
